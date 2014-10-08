@@ -1,0 +1,11 @@
+inherited Form7_NmXhdpiPh: TForm7_NmXhdpiPh
+  ClientHeight = 615
+  ClientWidth = 400
+  DesignerMasterStyle = 0
+  inherited btn1: TButton
+    Position.X = 144.000000000000000000
+  end
+  inherited btn2: TButton
+    Position.X = 144.000000000000000000
+  end
+end
