@@ -1,11 +1,16 @@
-inherited Form7_NmXhdpiPh: TForm7_NmXhdpiPh
+inherited JasoncppForm_NmXhdpiPh: TJasoncppForm_NmXhdpiPh
   ClientHeight = 615
   ClientWidth = 400
   DesignerMasterStyle = 0
   inherited btn1: TButton
-    Position.X = 144.000000000000000000
+    Position.X = 120.000000000000000000
+    Position.Y = 64.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 49.000000000000000000
   end
   inherited btn2: TButton
-    Position.X = 144.000000000000000000
+    Position.X = 120.000000000000000000
+    Size.Width = 129.000000000000000000
+    Size.Height = 49.000000000000000000
   end
 end

@@ -28,7 +28,7 @@ void __fastcall TJasoncppForm::btn1Click(TObject *Sender)
 {
     // why not use UTF8String ? because mobile apps don't support it.
 
-	DynamicArray<System::Byte> doc = TEncoding::UTF8->GetBytes(L"{\"array\":[{\"id\":1,\"name\":\"蕭沖\"},{\"id\":2,\"name\":\"喆寶\"}]}");
+	TBytes doc = TEncoding::UTF8->GetBytes(L"{\"array\":[{\"id\":1,\"name\":\"蕭沖\"},{\"id\":2,\"name\":\"喆寶\"}]}");
 	doc.Length = doc.Length +1; // important here for string test
 	doc[doc.High] = 0;          // for string test
 	string test((char*)&doc[0]);
@@ -39,7 +39,7 @@ void __fastcall TJasoncppForm::btn1Click(TObject *Sender)
 		for (int i=0; i<arrayObj.size(); i++) {
 			int id = arrayObj[i]["id"].asInt();
 			string name = arrayObj[i]["name"].asString();
-			DynamicArray<System::Byte> byName = BytesOf(name.c_str(),name.length()+1); // +1 incl. NULL terminated
+			TBytes byName = BytesOf(name.c_str(),name.length());
 			ShowMessage(IntToStr(id) + L" " +TEncoding::UTF8->GetString(byName));  // GetString in Windows use MultiByteToWideChar
 		}
 	} else {
@@ -54,7 +54,7 @@ void __fastcall TJasoncppForm::btn2Click(TObject *Sender)
 	//ss->WriteString(L"{\"id\":1,\"name\":\"hello蕭沖A\"}");
 	//string test((char*)ss->Memory);
 
-	DynamicArray<System::Byte> doc = TEncoding::UTF8->GetBytes(L"{\"id\":1,\"name\":\"hello蕭沖A喆B\"}");
+	TBytes doc = TEncoding::UTF8->GetBytes(L"{\"id\":1,\"name\":\"hello蕭沖A喆B\"}");
 	doc.Length = doc.Length +1;
 	doc[doc.High] = 0;
 	string test((char*)&doc[0]);
@@ -68,7 +68,7 @@ void __fastcall TJasoncppForm::btn2Click(TObject *Sender)
 		int id = value["id"].asInt();
 		string name = value["name"].asString();
 
-		DynamicArray<System::Byte> byName = BytesOf(name.c_str(),name.length()+1);
+		TBytes byName = BytesOf(name.c_str(),name.length());
 		ShowMessage(TEncoding::UTF8->GetString(byName));
 
 	} else {
@@ -76,7 +76,7 @@ void __fastcall TJasoncppForm::btn2Click(TObject *Sender)
 	}
 
 	// below try to figure out encoding and converting tricks.
-	DynamicArray<System::Byte> cp950 = TEncoding::GetEncoding(950)->GetBytes(L"中國中12345");
+	TBytes cp950 = TEncoding::GetEncoding(950)->GetBytes(L"中國中12345");
 	cp950.Length = cp950.Length + 1;  // why? cause NULL byte was not converted
 	cp950[cp950.High] = 0;
 
@@ -85,14 +85,14 @@ void __fastcall TJasoncppForm::btn2Click(TObject *Sender)
 	//string text = "中國中12345";  //OSX emit utf8; but android win CP_ACP
 
 
-	DynamicArray<System::Byte> db, db2;
-	int dl = text.length()+1;  // incl. null terminated
+	TBytes db, db2;
+	int dl = text.length();
 	db = BytesOf(text.c_str(), dl);
-	db2.Length = (dl-1)*2+1; // note here
-	BinToHex(db,0,db2,0,dl-1);
+	db2.Length = dl*2;
+	BinToHex(db,0,db2,0,dl);
 
 	//db[db.High] = 0;
-	db2[db2.High] = 0;
+	//db2[db2.High] = 0;
 
 	ShowMessage(TEncoding::GetEncoding(950)->GetString(db));
 	ShowMessage(TEncoding::ASCII->GetString(db2));
